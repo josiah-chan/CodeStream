@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <string.h>
-
 //有一串字符：" i am from nanjing"，编码实现输出 "nanjing from am i"
 
 void Exchange(char *str,int len)//字符串逆序显示函数
