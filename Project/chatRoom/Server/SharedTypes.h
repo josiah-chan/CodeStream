@@ -3,13 +3,15 @@
 
 enum FunctionOption
 {
-    FUNC_REGISTER = 1,  /* 注册 */
-    FUNC_LOGIN,         /* 登录 */
-    FUNC_EXIT,          /* 退出 */
-    FUNC_ADD_FRIEND,    /* 添加好友 */
-    FUNC_DEL_FRIEND,    /* 删除好友 */
-    FUNC_NEW_GROUP,     /* 建群 */
-    FUNC_EXIT_GROUP     /* 退群 */
+    FUNC_REGISTER = 1, /* 注册 */
+    FUNC_LOGIN,        /* 登录 */
+    FUNC_EXIT,         /* 退出 */
+    FUNC_ADD_FRIEND,   /* 添加好友 */
+    FUNC_DEL_FRIEND,   /* 删除好友 */
+    FUNC_NEW_GROUP,    /* 建群 */
+    FUNC_EXIT_GROUP,   /* 退群 */
+    FUNC_SEARCH_MUSIC, /* 搜索服务器音乐 */
+    FUNC_ONLINE_MUSIC  /* 处理在线音乐 */
 };
 
 enum ReplyCode

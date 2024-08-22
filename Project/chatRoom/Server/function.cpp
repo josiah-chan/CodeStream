@@ -58,6 +58,29 @@ bool Function::isUserOnline([[maybe_unused]] const char *username)
     return true;
 }
 
+std::string Function::readMusicFile(const std::string &filePath)
+{
+    std::ifstream file(filePath, ios::in | ios::binary);
+    if (file)
+    {
+        /* 获取文件大小 */
+        file.seekg(0, ios::end);
+        size_t size = file.tellg();
+        file.seekg(0, ios::beg);
+
+        /* 读取文件内容 */
+        std::string buffer(size, '\0');
+        file.read(&buffer[0], size);
+        file.close();
+
+        return buffer;
+    }
+    else
+    {
+        return ""; /* 文件读取失败 */
+    }
+}
+
 void Function::handleRegister(const std::string &msg)
 {
     cout << "handleRegister: " << "File: " << __FILE__ << "\tLine: " << __LINE__ << endl;
@@ -112,6 +135,41 @@ void Function::handleCreateGroup(const std::string &msg)
 
 void Function::handleExitGroup(const std::string &msg)
 {
+}
+
+void Function::handleOnlineMusicInfo(const std::string &msg)
+{
+    cout << "handleOnlineMusicInfo: " << msg << endl;
+
+    const char *musicName = nullptr;
+    json_object *jsonObj = json_tokener_parse(msg.c_str());
+    if (jsonObj != nullptr)
+    {
+        musicName = json_object_get_string(json_object_object_get(jsonObj, "musicName"));
+    }
+
+    /* 构建json字符串 */
+    /* 1.创建响应json对象 */
+    json_object *resObj = json_object_new_object();
+    /* 2.设置<key, value> */
+    json_object_object_add(resObj, "type", json_object_new_int(FUNC_ONLINE_MUSIC));
+
+    /* 拼接音乐的文件路径 */
+    std::string musicFilePath = "/home/josiah/chatRoom_music/" + std::string(musicName) + ".mp3"; /* 假设音乐文件为MP3格式 */
+    std::string musicData = readMusicFile(musicFilePath);
+    cout << "size: " << musicData.size() << endl;
+    if (!musicData.empty())
+    {
+        /* 使用Base64 编码音乐数据 */
+        std::string encondeMusicData = base64_encode(reinterpret_cast<const unsigned char*>(musicData.c_str()),musicData.size());
+
+        json_object_object_add(resObj, "musicName", json_object_new_string(musicName));
+        json_object_object_add(resObj, "musicContent", json_object_new_string(encondeMusicData.c_str()));
+    }
+
+    const char *resStr = json_object_to_json_string(resObj);
+    cout << "resStr: " << resStr << endl;
+    m_clientInfo->sendMessage(resStr);
 }
 
 void Function::handleLogin(const std::string &msg)

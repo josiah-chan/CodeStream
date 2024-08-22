@@ -15,6 +15,9 @@ MessageHandle::MessageHandle(std::shared_ptr<StdTcpSocket> &clientInfo) : m_func
 
     m_handles[FUNC_DEL_FRIEND] = [this](const std::string &msg)
     { m_function.handleDeleteFriend(msg); };
+
+    m_handles[FUNC_SEARCH_MUSIC] = [this](const std::string &msg)
+    { m_function.handleOnlineMusicInfo(msg); };
 }
 
 /* 析构函数 */

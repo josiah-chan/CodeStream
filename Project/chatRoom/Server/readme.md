@@ -12,12 +12,12 @@
 
 ## 搜索歌曲:
 ### 请求端：
-    request:{"type":SEARCH_MUSIC, "MusicName":"一直很安静"}
+    request:{"type":SEARCH_MUSIC, "musicName":"一直很安静"}
 ### 回复端:
-    response:{"type":SEARCH_MUSIC, "MusicName":"一直很安静", "musicContent":"xxxx"}
+    response:{"type":SEARCH_MUSIC, "musicName":"一直很安静", "musicContent":"xxxx"}
 
 ## 下载音乐：
 ### 请求端：
-    request:{"type":Download, "musicname":"我怀念的"}
+    request:{"type":Download, "musicName":"我怀念的"}
 ### 响应端：
-    response:{"type":Download, "musicname":"我怀念的", "musicContent":"xxxx"}
+    response:{"type":Download, "musicName":"我怀念的", "musicContent":"xxxx"}

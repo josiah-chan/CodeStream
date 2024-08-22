@@ -7,10 +7,12 @@
 #include <iomanip>
 #include <ctime>
 #include <json-c/json.h>
+#include <fstream>
 #include "stdTcpServer.h"
 #include "SharedTypes.h"
 #include "sqliteDataBase.h"
 #include "mysqlDataBase.h"
+#include "base64.h"
 
 using namespace std;
 
@@ -49,6 +51,9 @@ private:
     /* 用户是否已经在线 */
     bool isUserOnline(const char *username);
 
+    /* 读取本地服务器文件夹路径 */
+    std::string readMusicFile(const std::string &filePath);
+
 public:
     /* 处理注册 */
     void handleRegister(const std::string &msg);
@@ -67,6 +72,9 @@ public:
 
     /* 处理退出群组 */
     void handleExitGroup(const std::string &msg);
+
+    /* 处理在线音乐 */
+    void handleOnlineMusicInfo(const std::string &msg);
 
 private:
     /* 通信类对象 */
