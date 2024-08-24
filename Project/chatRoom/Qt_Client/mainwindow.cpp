@@ -32,6 +32,7 @@ MainWindow::MainWindow(QWidget *parent) :
     /* 初始化设置头像 */
     ui->headImg->setHeadImage(":/image/8.png");
 
+
     /* 信号和槽 */
     connect(ui->RegisterBtn, &QPushButton::clicked, this, &MainWindow::handleRegisSlot);
 

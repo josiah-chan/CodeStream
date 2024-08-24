@@ -52,6 +52,8 @@ public slots:
     void handleStateChangedSlot();
     /* 处理进度条长度 */
     void handleDurationSlot(qint64 duration);
+    void handleSliderPressedSlot();
+    void handleSliderReleasedSlot();
     /* 处理进度条的进度 */
     void handlePositonSlot(qint64 position);
 
@@ -85,6 +87,8 @@ private:
 
     /* 判断是否播放 */
     bool m_isPlay;
+    /* 判断用户是否拖动进度条 */
+    bool m_isSeeking;
 
     /* 当前播放模式 */
     int m_currentPlayMode;
@@ -96,6 +100,18 @@ private:
     /* 2.Qlist中可以双击某一首歌 */
     /* 3.歌曲的名字、歌曲信息在同一行列显示*/
     /* 4.点击歌词按钮，界面上显示list 歌词滚动*/
+    /* 项目要求：
+            1.不允许魔数 (一处扣 5分)
+            2.程序异常退出 (60分以下)
+            ——————————————————————————————————
+            3.本地播放功能OK (具备记忆功能 - 10)
+            4.在线播放功能OK (具备记忆功能)
+            5.收藏的音乐歌单功能OK (具备记忆功能)
+            6.下载音乐功能 OK (具备记忆功能)
+            7.AI人工智能 (具备搜索)
+            8.歌词具备隐藏功能, 滚动功能
+            9.批量下载OK    (加分项)
+    */
     int m_backupLastSongRow;
     /* 当前播放音乐在歌单里面是哪一行 */
     int m_currentSongRow;

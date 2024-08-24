@@ -17,8 +17,8 @@
    <widget class="QListWidget" name="musicList">
     <property name="geometry">
      <rect>
-      <x>670</x>
-      <y>20</y>
+      <x>690</x>
+      <y>30</y>
       <width>271</width>
       <height>441</height>
      </rect>

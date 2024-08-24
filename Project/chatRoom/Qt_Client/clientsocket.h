@@ -6,7 +6,7 @@
 #include <QTcpSocket>
 #include <QByteArray>
 
-/* 枚举 - 功能操作码 - 与客户端匹配 */
+/* 枚举 - 功能操作码 - 与服务器端匹配 */
 enum FunctionOption
 {
     FUNC_REGISTER = 1,  /* 注册 */

@@ -20,6 +20,7 @@ musicMenu::musicMenu(ClientSocket* clientInfo, QWidget *parent) :
     ui(new Ui::musicMenu),
     m_player(new QMediaPlayer(this)),
     m_isPlay(false),
+    m_isSeeking(false),
     m_currentPlayMode(ORDER_MODE),
     m_backupLastSongRow(0),
     m_currentSongRow(0),
@@ -64,7 +65,11 @@ musicMenu::musicMenu(ClientSocket* clientInfo, QWidget *parent) :
     /* 信号和槽 */
     connect(m_player, &QMediaPlayer::durationChanged, this, &musicMenu::handleDurationSlot);
     connect(m_player, &QMediaPlayer::positionChanged, this, &musicMenu::handlePositonSlot);
-    connect(ui->processBar, &QSlider::sliderMoved, m_player, &QMediaPlayer::setPosition);
+
+//    connect(ui->processBar, &QSlider::sliderMoved, m_player, &QMediaPlayer::setPosition);
+    connect(ui->processBar, &QSlider::sliderPressed, this, &musicMenu::handleSliderPressedSlot);
+    connect(ui->processBar, &QSlider::sliderReleased, this, &musicMenu::handleSliderReleasedSlot);
+
     connect(m_player, &QMediaPlayer::stateChanged, this, &musicMenu::handleStateChangedSlot);
 
     /* 定时器 */
@@ -373,8 +378,8 @@ void musicMenu::handleNextSlot()
     int currentRow = ui->musicList->currentRow();
     m_backupLastSongRow = currentRow;
     int rowCount = ui->musicList->count();
-
     int nextRow = 0;
+
     if (m_currentPlayMode == ORDER_MODE)        /* 顺序播放 */
     {
         nextRow = (currentRow + 1) % (rowCount);
@@ -564,9 +569,10 @@ void musicMenu::handleStateChangedSlot()
              << "| 播放器状态:" << m_player->state()
              << "| 媒体状态:" << m_player->mediaStatus();
 
-    if (m_player->state() == QMediaPlayer::StoppedState && m_player->position() != 0)
+    if (!m_isSeeking && m_player->state() == QMediaPlayer::StoppedState && m_player->position() != 0)
     {
         /* 播放下一首 */
+        usleep(5000);
         handleNextSlot();
     }
 }
@@ -584,9 +590,37 @@ void musicMenu::handleDurationSlot(qint64 duration)
     ui->totalTime->setText(totalTime);
 }
 
+void musicMenu::handleSliderPressedSlot()
+{
+    m_isSeeking = true;  /* 用户开始拖动 */
+}
+
+void musicMenu::handleSliderReleasedSlot()
+{
+    m_isSeeking = false;    /* 用户手动松开 */
+
+    /* 检查是否拖动到了末尾 */
+    QTimer::singleShot(100, this, [this]
+    {
+        if (ui->processBar->value() >= ui->processBar->maximum() - 500)  /* 添加一个小的容差 */
+        {
+            /* 直接调用 handleNextSlot 来播放下一首 */
+            handleNextSlot();
+        }
+        else
+        {
+            /* 将播放器的播放位置设置为与进度条滑块当前位置相对应的时间点 */
+            m_player->setPosition(ui->processBar->value());
+        }
+    });
+}
+
 void musicMenu::handlePositonSlot(qint64 position)
 {
-    ui->processBar->setValue(static_cast<int>(position));
+    if (!m_isSeeking)   /* 用户按住进度条的时候，QSlider位置不变 */
+    {
+        ui->processBar->setValue(static_cast<int>(position));
+    }
 
     int minutes = static_cast<int>(position / 60000);  // 将毫秒转换为分钟
     int seconds = static_cast<int>((position % 60000) / 1000);  // 将剩余的毫秒转换为秒
