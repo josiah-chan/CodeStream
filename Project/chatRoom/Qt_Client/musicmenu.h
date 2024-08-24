@@ -46,6 +46,7 @@ public slots:
     void handleFavoriteSlot();
     void handleVolumnSlot();
     void handleTimeoutSlot();
+    void handleMusicItemDoubleClickedSlot();
 
     /* 音乐状态改变 */
     void handleStateChangedSlot();
@@ -63,7 +64,7 @@ public:
     void setAlbumPic(const QPixmap &pixmap);
     void setAlbumPic(const QString &picfilename);
 
-    /* 加载本地音乐源路径 */
+     /* 加载本地音乐源路径 */
     void loadApponitMusicPath(const QString &filepath);
     /* 播放指定音乐 */
     void startApponitMusic();

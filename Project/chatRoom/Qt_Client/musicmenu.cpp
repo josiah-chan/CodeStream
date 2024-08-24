@@ -12,6 +12,8 @@
 #include <QSlider>
 #include <QFile>
 #include <QTextCodec>
+#include <QWidgetAction>
+#include <unistd.h>
 
 musicMenu::musicMenu(ClientSocket* clientInfo, QWidget *parent) :
     QMainWindow(parent),
@@ -43,6 +45,7 @@ musicMenu::musicMenu(ClientSocket* clientInfo, QWidget *parent) :
     connect(ui->liricBtn, &QPushButton::clicked, this, &musicMenu::handleLiricSlot);
     connect(ui->favoriteBtn, &QPushButton::clicked, this, &musicMenu::handleFavoriteSlot);
     connect(ui->volumeBtn, &QPushButton::clicked, this, &musicMenu::handleVolumnSlot);
+    connect(ui->musicList, &QListWidget::itemDoubleClicked,this, &musicMenu::handleMusicItemDoubleClickedSlot);
 
     /* 在线音乐 - 信号和槽 */
     connect(ui->onlinePlayBtn, &QPushButton::clicked, this, &musicMenu::handleSearchMucicSlot);
@@ -53,6 +56,8 @@ musicMenu::musicMenu(ClientSocket* clientInfo, QWidget *parent) :
     ui->musicList->setCurrentRow(m_currentSongRow);
     m_lastSongName = "if-西野カナ-if";
 
+    /* 将音量设置为当前音量的一半 */
+    m_player->setVolume(m_player->volume() / 2);
     m_player->setMedia(QUrl::fromLocalFile(m_musicPath + m_lastSongName + ".mp3"));
     loadAppointLyricMusicPath(m_musicPath + m_lastSongName + ".lrc");
 
@@ -347,7 +352,6 @@ void musicMenu::handlePlaySlot()
     {
         /* 暂停播放 */
         m_player->pause();
-        qDebug() << "pause";
         ui->playBtn->setIcon(QIcon(":/icon/play.png"));
         /* 停止定时器 */
         m_lyricPositionTimer->stop();
@@ -356,7 +360,6 @@ void musicMenu::handlePlaySlot()
     {
         /* 播放音乐 */
         m_player->play();
-        qDebug() << "play";
         ui->playBtn->setIcon(QIcon(":/icon/pause.png"));
         /* 启动定时器 */
         m_lyricPositionTimer->start();
@@ -413,7 +416,54 @@ void musicMenu::handleFavoriteSlot()
 
 void musicMenu::handleVolumnSlot()
 {
-    qDebug() << "volumn";
+    /* 创建一个菜单作为弹出窗口 */
+    QMenu *volumeMenu = new QMenu(this);
+    volumeMenu->setStyleSheet("QMenu { background-color: white; border: 1px solid lightgray; padding: 6px; }");
+
+    /* 创建一个音量滑块 */
+    QSlider *volumeSlider = new QSlider(Qt::Vertical, volumeMenu);
+    volumeSlider->setRange(0, 100);  /* 设置音量范围0-100 */
+    volumeSlider->setValue(m_player->volume());  /* 设置初始值为当前音量 */
+    volumeSlider->setTickPosition(QSlider::NoTicks);  /* 不显示刻度 */
+    volumeSlider->setFixedSize(20, 100);  /* 设置滑块的固定大小 */
+
+    /* 设置滑块向下滑动增加音量 */
+    volumeSlider->setInvertedAppearance(true);
+
+     /* 使用样式表优化滑块的显示 */
+    volumeSlider->setStyleSheet(R"(
+          QSlider::groove:vertical {
+              background: lightgray;
+              width: 6px;
+              border-radius: 3px;
+             }
+           QSlider::handle:vertical {
+               background: #3daee9;
+               border: 1px solid #3daee9;
+               height: 20px;
+               margin: -2px;
+               border-radius: 5px;
+             }
+           QSlider::sub-page:vertical {
+               background: #3daee9;
+               border-radius: 3px;
+             }
+           QSlider::add-page:vertical {
+               background: #cfd8dc;
+               border-radius: 3px;
+             }
+         )");
+
+    /* 将滑块添加到菜单中 */
+    QWidgetAction *sliderAction = new QWidgetAction(volumeMenu);
+    sliderAction->setDefaultWidget(volumeSlider);
+    volumeMenu->addAction(sliderAction);
+
+    /* 连接滑块的值变化信号到音量调整槽函数 */
+    connect(volumeSlider, &QSlider::valueChanged, m_player, &QMediaPlayer::setVolume);
+
+    /* 在按钮下方显示菜单 */
+    volumeMenu->exec(ui->volumeBtn->mapToGlobal(QPoint(10, ui->volumeBtn->height())));
 }
 
 /* 处理定时器超时 */
@@ -421,8 +471,6 @@ void musicMenu::handleTimeoutSlot()
 {
     /* 处理当前歌曲的位置 */
     int currentPots = static_cast<int>(m_player->position());
-
-//    qDebug() << "currentPots: " << currentPots;
 
     for (auto iter = m_lyricInfo.begin(); iter != m_lyricInfo.end(); iter++)
     {
@@ -435,6 +483,11 @@ void musicMenu::handleTimeoutSlot()
             break;
         }
     }
+}
+
+void musicMenu::handleMusicItemDoubleClickedSlot()
+{
+    startApponitMusic();
 }
 
 void musicMenu::handleSearchMucicSlot()
@@ -507,8 +560,9 @@ void musicMenu::handleOnlineDataSlot(const QByteArray &data)
 
 void musicMenu::handleStateChangedSlot()
 {
-    qDebug() << "state: " << m_player->state();
-    qDebug() << "Media status:" << m_player->mediaStatus();
+    qDebug() << "当前歌曲:" << ui->musicList->currentItem()->text()
+             << "| 播放器状态:" << m_player->state()
+             << "| 媒体状态:" << m_player->mediaStatus();
 
     if (m_player->state() == QMediaPlayer::StoppedState && m_player->position() != 0)
     {
@@ -522,12 +576,12 @@ void musicMenu::handleDurationSlot(qint64 duration)
     int minutes = static_cast<int>(duration / 60000);  // 将毫秒转换为分钟
     int seconds = static_cast<int>((duration % 60000) / 1000);  // 将剩余的毫秒转换为秒
 
-    QString formatStr = "%1:%2";
-    QString totalTime = formatStr.arg(minutes).arg(seconds);
-    ui->totalTime->setText(totalTime);
+    QString totalTime = QString("%1:%2").arg(minutes, 2, 10, QChar('0')).arg(seconds, 2, 10, QChar('0'));
 
     /* 更新进度条的最大值 */
     ui->processBar->setRange(0, static_cast<int>(duration));
+    usleep(5000);
+    ui->totalTime->setText(totalTime);
 }
 
 void musicMenu::handlePositonSlot(qint64 position)
@@ -536,8 +590,8 @@ void musicMenu::handlePositonSlot(qint64 position)
 
     int minutes = static_cast<int>(position / 60000);  // 将毫秒转换为分钟
     int seconds = static_cast<int>((position % 60000) / 1000);  // 将剩余的毫秒转换为秒
-    QString formatStr = "%1:%2";
-    QString currentTime = formatStr.arg(minutes, 2, 10, QChar('0')).arg(seconds, 2, 10, QChar('0'));  // 确保秒数为两位数，前导零
+    QString currentTime = QString("%1:%2").arg(minutes, 2, 10, QChar('0')).arg(seconds, 2, 10, QChar('0'));  // 确保秒数为两位数，前导零
 
+    usleep(5000);
     ui->currentTime->setText(currentTime);
 }
