@@ -1,0 +1,17 @@
+C_String_Mydev/
+├── docs/                    # 文档目录
+│   └── api.md              # API文档
+├── examples/               # 示例代码目录
+│   └── example.c           # 使用示例
+├── include/                # 头文件目录（建议改为更标准的名称）
+│   └── c_string.h
+├── src/                    # 源文件目录（建议改为小写）
+│   └── c_string.c
+├── tests/                  # 测试目录
+│   ├── test_main.c
+│   └── unit/              # 单元测试
+├── .gitignore             # Git忽略文件
+├── CMakeLists.txt         # CMake构建文件
+├── LICENSE                # 开源许可证
+├── Makefile              # Make构建文件
+└── README.md             # 项目说明文件
