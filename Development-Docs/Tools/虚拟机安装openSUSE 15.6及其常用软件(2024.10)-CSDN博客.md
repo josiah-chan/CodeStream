@@ -1,157 +1,5 @@
 这次更新扩充一下内容，系统版本是openSUSE 15.6，增加图片，以及安装系统过程，增加了一些常用的软件，另外有些网站的域名也发生了变化，这次一并更新。
 
-**目录**
-
-[1 系统安装篇](#1%20%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85%E7%AF%87)
-
-[1.1 安装VMWare Workstation Pro 17.5](#t0)
-
-[1.2 下载openSUSE 15.6安装镜像](#t1)
-
-[1.3 虚拟机安装openSUSE 15.6](#t2)
-
-[2 系统初始化篇](#2%20%E7%B3%BB%E7%BB%9F%E5%88%9D%E5%A7%8B%E5%8C%96%E7%AF%87)
-
-[2.1 开启SSH远程操作](#t3)
-
-[​2.2 换源与更新](#t4)
-
-[2.3 安装视频解码依赖](#t5)
-
-[2.4 安装防火墙](#t6)
-
-[2.5 安装vim](#t7)
-
-[2.6 安装GCC](#t8)
-
-[2.7 安装make](#t9)
-
-[2.8 安装curl](#t10)
-
-[3 虚拟机安装篇](#t11)
-
-[3.1 安装VMWare Workstation Pro 17.6 For Linux](#t12)
-
-[4 开发环境安装篇](#t13)
-
-[4.1 安装JDK8](#t14)
-
-[4.2 安装Node.js](#t15)
-
-[4.3 安装SVN](#t16)
-
-[4.4 安装Git](#t17)
-
-[4.5 安装Redis](#t18)
-
-[4.6 安装NGINX](#t19)
-
-[4.7 安装MongoDB](#t20)
-
-[4.8 安装Python3](#4.8%20%E5%AE%89%E8%A3%85Python3)
-
-[5 数据库安装篇](#t21)
-
-[5.1 安装MySQL 5.7](#t22)
-
-[5.2 安装PostgreSQL](#t23)
-
-[6 压缩软件安装篇](#7%20%E5%8E%8B%E7%BC%A9%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85%E7%AF%87)
-
-[6.1 安装7zip](#t24)
-
-[6.2 安装zip](#t25)
-
-[7 浏览器安装篇](#t26)
-
-[7.1 安装Edge浏览器](#t27)
-
-[7.2 安装Chrome](#t28)
-
-[8\. 开发辅助工具安装篇](#t29)
-
-[8.1 安装Another Redis Desktop Manager](#t30)
-
-[8.2 安装SSH工具electerm](#t31)
-
-[8.3 安装FTP/SFTP工具FileZilla](#t32)
-
-[8.4 安装VS Code](#t33)
-
-[9 办公软件安装篇](#t34)
-
-[9.1 安装百度网盘](#t35)
-
-[9.2 安装WPS](#t36)
-
-[9.3 安装微信](#t37)
-
-[9.4 安装QQ](#t38)
-
-[9.5 安装钉钉](#t39)
-
-[9.6 安装迅雷](#t40)
-
-[9.7 安装本地文件搜索软件](#t41)
-
-[9.7.1 Fsearch](#t42)
-
-[9.8 安装PDF阅读器Okular](#t43)
-
-[10 影音软件安装篇](#t44)
-
-[10.1 安装视频/音频播放器](#t45)
-
-[10.1.1 SMPlayer](#t46)
-
-[10.1.2 VLC](#t47)
-
-[10.2 安装网络音乐播放器](#t48)
-
-[10.2.1 QQ音乐](#t49)
-
-[10.3 安装图片软件](#t50)
-
-[10.3.1 nomacs](#t51)
-
-[10.3.2 Gwenview](#t52)
-
-[11 格式软件安装篇](#t53)
-
-[11.1 安装mkvtoolnix](#t54)
-
-[11.2 安装格式转换工具](#t55)
-
-[11.2.1 ffmpeg](#t56)
-
-[11.2.2 Curlew](#t57)
-
-[12 硬件工具安装](#t58)
-
-[12.1 安装烧录工具](#t59)
-
-[12.1.1 balenaEtcher(可烧录Linux，不能烧录Windows)](#t60)
-
-[12.1.2 WoeUSB(可烧录Windows，不能烧录Linux)](#t61)
-
-[13 远程工具安装篇](#t62)
-
-[13.1 安装桌面远程工具ToDesk](#t63)
-
-[13.2 安装内网穿透工具](#t64)
-
-[13.2.1 nattunnel(收费)](#t65)
-
-[13.3 安装异地组网工具](#t66)
-
-[13.3.1 openlink/zerotier(收费)(不能保证一定成功)](#t67)
-
-[13.3.2 蒲公英(收费)](#t68)
-
-[14 模拟器篇](#t69)
-
-[14.1 安卓模拟器](#t70)
-
 * * *
 
 1 [系统安装](https://so.csdn.net/so/search?q=%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85&spm=1001.2101.3001.7020)篇
@@ -217,7 +65,7 @@ https://get.opensuse.org/zh\_CN/leap](https://get.opensuse.org/zh_CN/leap "openS
 
 ![](https://i-blog.csdnimg.cn/direct/f06a1721cca745869c5f56c4a2b8fd4a.png)
 
-​开始安装
+开始安装
 
 ![](https://i-blog.csdnimg.cn/direct/895c4585b0434f3dad17f2ce6492e681.png)
 
@@ -262,7 +110,7 @@ VMWare Tools在安装openSUSE 15.6时已自动安装
 
 ![](https://i-blog.csdnimg.cn/direct/81b20dd2f42c4c84b98442e5634c7911.png)
 
-​开启ssh
+开启ssh
 
 ```null
 sudo systemctl start sshd;sudo systemctl enable sshd;
@@ -280,7 +128,7 @@ sudo firewall-cmd --permanent --zone=public --add-port=22/tcp;sudo firewall-cmd 
 
 ![](https://i-blog.csdnimg.cn/direct/6fe1494b933a4a919b8b7c95ce856607.png)
 
-### ​2.2 换源与更新
+### 2.2 换源与更新
 
 首先禁用官方源
 
@@ -475,7 +323,7 @@ nvm install 14;
 
 ![](https://i-blog.csdnimg.cn/direct/a990ffab69514c7aa875ce92ac7b92b5.png)
 
-​配置npm源，阿里云的镜像站域名已经发生变化 
+配置npm源，阿里云的镜像站域名已经发生变化 
 
 ```null
 npm config set registry https://registry.npmmirror.com;npm config set registry https://registry.npmjs.org;yarn config set registry https://registry.npmmirror.com -g;yarn config set sass_binary_site https://cdn.npmmirror.com/dist/node-sass -g;npm install -g cnpm -registry=https://registry.npmmirror.com;cnpm install -g @vue/cli@3;
@@ -525,7 +373,7 @@ sudo vim /etc/systemd/system/redis.service
 ExecStart=/usr/sbin/redis-server /etc/redis/redis.confWantedBy=multi-user.target
 ```
 
-​重启Redis，开机自启动Redis
+重启Redis，开机自启动Redis
 
 ```null
 sudo systemctl daemon-reload;sudo systemctl start redis;sudo systemctl enable redis;
@@ -945,7 +793,7 @@ sudo chmod u+x Another-Redis-Desktop-Manager.1.6.6.AppImage;
 
 ![](https://i-blog.csdnimg.cn/direct/4b4256553b324267b58fe3193dfdfc84.png)
 
-​复制到桌面，允许运行
+复制到桌面，允许运行
 
 ```null
 cp another-redis-desktop-manager.desktop ~/桌面/another-redis-desktop-manager.desktop;
@@ -1174,7 +1022,7 @@ smplayer
 #### 10.1.2 VLC
 
 ```null
-​sudo zypper --non-interactive install vlc;
+sudo zypper --non-interactive install vlc;
 ```
 
 ![](https://i-blog.csdnimg.cn/direct/595047495ea7437a929c5f3de38e2093.png)
@@ -1239,7 +1087,7 @@ sudo cp ~/桌面/qqmusic.desktop /usr/share/applications/qqmusic.desktop;
 #### 10.3.1 **nomacs**
 
 ```null
-​sudo zypper --non-interactive install nomacs;
+sudo zypper --non-interactive install nomacs;
 ```
 
 ![](https://i-blog.csdnimg.cn/direct/e809fa872c734a6abf507d8e8ce000c4.png)
@@ -1249,7 +1097,7 @@ sudo cp ~/桌面/qqmusic.desktop /usr/share/applications/qqmusic.desktop;
 #### 10.3.2 **Gwenview**
 
 ```null
-​sudo zypper --non-interactive install gwenview;
+sudo zypper --non-interactive install gwenview;
 ```
 
 ![](https://i-blog.csdnimg.cn/direct/dc9ef2ece78346dcb4ec558341ec5796.png)
@@ -1262,7 +1110,7 @@ sudo cp ~/桌面/qqmusic.desktop /usr/share/applications/qqmusic.desktop;
 ### 11.1 安装mkvtoolnix
 
 ```null
-​sudo zypper --non-interactive install mkvtoolnix mkvtoolnix-gui;
+sudo zypper --non-interactive install mkvtoolnix mkvtoolnix-gui;
 ```
 
 ![](https://i-blog.csdnimg.cn/direct/ee739cfdf8d349f68982af9acee62e33.png)
@@ -1302,7 +1150,7 @@ sudo zypper --non-interactive install curlew
 https://github.com/balena-io/etcher/releases](https://github.com/balena-io/etcher/releases "Releases · balena-io/etcher · GitHub")或者使用wget
 
 ```null
-​wget https://github.com/balena-io/etcher/releases/download/v1.18.0/balena-etcher-1.18.0.x86_64.rpm;
+wget https://github.com/balena-io/etcher/releases/download/v1.18.0/balena-etcher-1.18.0.x86_64.rpm;
 ```
 
 安装
